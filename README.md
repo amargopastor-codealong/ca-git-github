@@ -9,6 +9,21 @@
 
 Este programa nos permite `gestionar versiones de nuestro código` (gestionar código fuente). Más concretamente `gestiona las versiones de un archivo que evoluciona a lo largo del tiempo`. Por eso recibe el nombre de `VCS` (Version Control Software).
 
+Un control de versiones nos evita el clásico chiste de la multiplicación y renombre de carpetas:
+
+<img
+  width="500"
+  src="./img/img6.png"
+/>
+
+A parte del control de versiones, git no permite:
+
+- Coordinar trabajo entre distint@s desarrolladores
+- Saber _quién_ hizo cambios en el programa y _cuándo_
+- Volver atrás en el tiempo
+- Trabajar con repositorios locales y remotos
+- No esta asociado a ningún lenguaje de programación o programa: simplemente almacena archivos
+
 ```bash
 GIT: Permite una organización horizontal de los archivos (no jerárquica) y nos permite controlar la evolución de nuestro programa.
 ```
@@ -21,6 +36,13 @@ Para verificar que tenemos `git` instalado en nuestro ordenador basta con que ej
 git --version
 # git version 2.35.1
 ```
+
+## Concepts of git
+
+- Nos permite mantener un registro de la evolución de nuestros archivos
+- Realiza pequeñas _fotografías_ de nuestros archivos
+- Nosotros mismos podemos decidir cuándo se fotografían nuestros avances mediante los _commits_
+- Podemos revisitar las fotografías de nuestro código
 
 ## Stages
 
@@ -66,10 +88,11 @@ command p
 
 ## Git general
 
-- `git init`: crea un repositorio local junto con la carpeta .git (inicializamos git en la carpeta actual).
+- `git init .`: crea un repositorio local junto con la carpeta .git (inicializamos git en la carpeta actual).
 - `git --version`: el output nos devuelve la versión actual de git instalada en nuestro equipo.
 - `git help`: nos devuelve toda la información de instrucciones dentro de git.
 - `git help <instrucción>`: nos devuelve toda la información de instrucciones del comando commit.
+- `rm -rf .git`: borra el control de git sobre el directorio.
 
 ## Git alias
 
@@ -117,6 +140,38 @@ git config --global alias.lg "log --graph --abbrev-commit --decorate --format=fo
 
 - `rm --cached -r ./<nombre_carpeta>`: elimina una carpeta del control de git (pero no de mi local)
 
+## Object lesson
+
+Vamos a crear un rápido ejemplo de control de versiones
+
+```bash
+# Creamos nueva carpeta
+mkdir demo
+# Accedemos a la nueva carpeta
+cd demo
+# Iniciamos git
+git init .
+# Creamos un archivo index.html
+touch index.html
+# Abrimos el archivo con nuestro editor de código y añadimos información
+code .
+# COmprobamos los cambios
+gst
+# Nuevo stage
+git add index.html
+# Nuevo commit
+git commit -m 'feat: first commit'
+# Ver las ramas como un gráfico en nuestra terminal
+git log --graph --all
+# Repetimos el proceso y navegamos entre los distintos commits
+code .
+gst
+git add index.html
+git commit -m 'feat: second commit'
+git log --graph --all
+git checkout <commit-id> .
+```
+
 ## Flujo de trabajo
 
 ```bash
@@ -151,25 +206,13 @@ git checkout <nombre_rama>
 git merge <rama_de_la_que_me_traigo_los_cambios>
 ```
 
-### Resolver conflictos
-
-Tantas veces como ficheros conflictivos
-
-```bash
-git add <fichero_conflictivo>
-```
-
-```bash
-git commit
-```
-
 ## Commit
 
 Cuando ejecutamos un commit `guarda el estado de una carpeta en un momento temporal` (congelamos el estado de la carpeta en un momento concreto). Una carpeta que opera bajo el control de git nuestros archivos tendrán distintos estados:
 
-- `untracked file`
-- `changes to be commited`
-- `git commit -am "Mi primer commit"` (para añadir los ficheros modificados al commit).
+1. `untracked file`
+1. `changes to be commited`
+1. `git commit -am "Mi primer commit"` (para añadir los ficheros modificados al commit).
 
 La potencia de git es que nos permite viajar en el tiempo y `recuperar el estado de nuestro proyecto` en los puntos marcados mediante los propios commit.
 
